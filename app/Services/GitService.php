@@ -57,6 +57,7 @@ class GitService extends BaseService
 
         $this->cmd([
             $this->cd($package),
+            'git add --all',
             sprintf('git commit -am "%s"', $message),
             'git push origin master',
         ]);
