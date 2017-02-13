@@ -48,7 +48,7 @@ class GitCommand extends Command
         if ($action == 'fetch') {
             foreach ($service->packages() as $package) {
                 $this->info("\n$package status:\n");
-                $service->status($package, $this->options());
+                $service->fetch($package, $this->options());
             }
         }
 
