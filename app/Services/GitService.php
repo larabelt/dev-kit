@@ -49,7 +49,7 @@ class GitService extends BaseService
 
     public function commit($package, $options)
     {
-        $message = array_get($options, 'message');
+        $message = array_get($options, 'commit');
 
         if (!$message) {
             throw new \Exception('missing commit message');
