@@ -19,8 +19,12 @@ class BaseService
         $this->console = array_get($options, 'console');
     }
 
-    public function packages()
+    public function packages($packages = null)
     {
+
+        if ($packages) {
+            return $this->packages = is_array($packages) ? $packages : explode(',', $packages);
+        }
 
         if (!is_null($this->packages)) {
             return $this->packages;

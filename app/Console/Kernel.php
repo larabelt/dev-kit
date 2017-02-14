@@ -14,21 +14,24 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        App\Console\Commands\GitCommand::class,
-        App\Console\Commands\InstallCommand::class,
-        App\Console\Commands\PhpUnitCommand::class,
+        App\Console\Commands\CommitCommand::class,
+        App\Console\Commands\FetchCommand::class,
+        App\Console\Commands\PostUpdateCommand::class,
+        App\Console\Commands\ReinstallCommand::class,
+        App\Console\Commands\StatusCommand::class,
+        App\Console\Commands\TestCommand::class,
+        App\Console\Commands\UpdateCommand::class,
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+
     }
 
     /**

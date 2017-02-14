@@ -2,38 +2,64 @@
 
 namespace App\Services;
 
-
 use Illuminate\Support\Str;
 
 class InstallService extends BaseService
 {
-    public function install($options)
+    public function reinstall($options = [])
     {
 
-        $cmds = [$this->cd(env('PROJECT'))];
+        $project = env('PROJECT');
+
+        $force = array_get($options, 'force', false);
 
         # publish
-        $cmds[] = $this->info("\n#publish\n", 'blue');
         foreach ($this->packages() as $package) {
-            $force = array_get($options, 'force') ? '--force' : '';
-            $cmds[] = sprintf('php artisan ohio-%s:publish %s', $package, $force);
+            $cmd = sprintf('php artisan ohio-%s:publish %s', $package, $force ? '--force' : '');
+            $this->cmd([
+                $this->cd($project),
+                $this->info($cmd, 'blue'),
+                $cmd
+            ]);
         }
-        $cmds[] = 'composer dumpautoload';
 
-        # migrate & seed
-        $cmds[] = $this->info("\n#migrate\n", 'blue');
-        $cmds[] = 'php artisan migrate:refresh';
-        $cmds[] = $this->info("\n#seed\n", 'blue');
+        # composer dumpautoload
+        $cmd = 'composer dumpautoload';
+        $this->cmd([
+            $this->cd($project),
+            $this->info("$cmd\n", 'blue'),
+            $cmd
+        ]);
+
+        # migrate: refresh
+        $cmd = 'php artisan migrate:refresh';
+        $this->cmd([
+            $this->cd($project),
+            $this->info("$cmd\n", 'blue'),
+            $cmd
+        ]);
+
+        # seeds
         foreach ($this->packages() as $package) {
             $class = sprintf('Ohio%sSeeder', Str::title($package));
-            $file = sprintf('%s/../%s/database/seeds/%s.php', base_path(), env('PROJECT'), $class);
+            $file = sprintf('%s/../%s/database/seeds/%s.php', base_path(), $project, $class);
             if (file_exists($file)) {
-                $cmds[] = sprintf('php artisan db:seed --class=Ohio%sSeeder', Str::title($package));
+                $cmd = sprintf('php artisan db:seed --class=Ohio%sSeeder', Str::title($package));
+                $this->cmd([
+                    $this->cd($project),
+                    $cmd
+                ]);
             }
         }
-        $cmds[] = 'composer run-script clear';
 
-        return $this->cmd($cmds);
+        # clear
+        $cmd = 'composer run-script clear';
+        $this->cmd([
+            $this->cd($project),
+            $this->info("$cmd\n", 'blue'),
+            $cmd
+        ]);
+
     }
 
 }

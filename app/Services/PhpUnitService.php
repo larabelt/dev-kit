@@ -5,7 +5,17 @@ namespace App\Services;
 
 class PhpUnitService extends BaseService
 {
-    public function test($package, $options = [])
+    public function test($options = [])
+    {
+        $paths = $this->packages(array_get($options, 'packages'));
+
+        foreach ($paths as $path) {
+            $this->cmd($this->info("\n$path\n", 'blue'));
+            $this->__test($path, $options);
+        }
+    }
+
+    public function __test($path, $options = [])
     {
 
         $filter = array_get($options, 'filter');
@@ -16,7 +26,7 @@ class PhpUnitService extends BaseService
         $testCmd = [
             'vendor/bin/phpunit',
             '--bootstrap=bootstrap/app.php',
-            "-c ../$package/tests",
+            "-c ../$path/tests",
         ];
 
         if ($filter) {
@@ -32,12 +42,10 @@ class PhpUnitService extends BaseService
         }
 
         if ($coverage) {
-            $testCmd[] = "--coverage-html=public/tests/ohio/$package";
+            $testCmd[] = "--coverage-html=public/tests/ohio/$path";
         }
 
         $testCmd = implode(' ', $testCmd);
-
-//        return $this->cmd2(env('PROJECT'), [$testCmd]);
 
         $this->cmd([
             $this->cd(env('PROJECT')),

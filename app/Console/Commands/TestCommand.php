@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Services;
 
-class PhpUnitCommand extends Command
+class TestCommand extends BaseCommand
 {
 
     /**
@@ -13,7 +13,7 @@ class PhpUnitCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'phpunit {action} 
+    protected $signature = 'test 
         {--p|packages=}
         {--f|filter=} 
         {--s|suite=} 
@@ -35,17 +35,7 @@ class PhpUnitCommand extends Command
      */
     public function handle()
     {
-        $service = new Services\PhpUnitService(['console' => $this]);
-
-        $action = $this->argument('action');
-
-        if ($action == 'test') {
-            $packages = $this->option('packages') ? explode(',', $this->option('packages')) : $service->packages();
-            foreach ($packages as $package) {
-                $this->info("\n$package test:\n");
-                $service->test($package, $this->options());
-            }
-        }
+        $this->phpunit()->test($this->options());
 
     }
 

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Services;
 
-class InstallCommand extends Command
+class ReinstallCommand extends BaseCommand
 {
 
     /**
@@ -13,9 +13,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'install
-        {--force}
-        ';
+    protected $signature = 'reinstall {--force}';
 
     /**
      * The console command description.
@@ -31,10 +29,7 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        $service = new Services\InstallService(['console' => $this]);
-
-        $service->install($this->options());
-
+        $this->installer()->reinstall($this->options());
     }
 
 }
