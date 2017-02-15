@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Services;
 
-class FetchCommand extends BaseCommand
+class PostComposeCommand extends BaseCommand
 {
 
     /**
@@ -13,7 +13,7 @@ class FetchCommand extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'fetch {--p|packages=}';
+    protected $signature = 'post-compose {--p|packages=} {--m|message=}';
 
     /**
      * The console command description.
@@ -29,7 +29,7 @@ class FetchCommand extends BaseCommand
      */
     public function handle()
     {
-        $this->git()->action('fetch', $this->options());
+        $this->git()->postCompose($this->options());
     }
 
 }

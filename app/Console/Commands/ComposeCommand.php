@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Services;
 
-class UpdateCommand extends BaseCommand
+class ComposeCommand extends BaseCommand
 {
 
     /**
@@ -13,7 +13,7 @@ class UpdateCommand extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'update {--p|packages=} {--m|message=}';
+    protected $signature = 'compose {--p|packages=} {--m|message=}';
 
     /**
      * The console command description.
@@ -29,7 +29,7 @@ class UpdateCommand extends BaseCommand
      */
     public function handle()
     {
-        $this->git()->update($this->options());
+        $this->git()->compose($this->options());
     }
 
 }

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Services;
 
-class CommitCommand extends BaseCommand
+class PushCommand extends BaseCommand
 {
 
     /**
@@ -13,7 +13,7 @@ class CommitCommand extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'commit {--p|packages=} {--m|message=}';
+    protected $signature = 'push {--p|packages=} {--m|message=}';
 
     /**
      * The console command description.
@@ -29,7 +29,7 @@ class CommitCommand extends BaseCommand
      */
     public function handle()
     {
-        $this->git()->action('commit', $this->options());
+        $this->git()->action('push', $this->options());
     }
 
 }

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Services;
 
-class PostUpdateCommand extends BaseCommand
+class PullCommand extends BaseCommand
 {
 
     /**
@@ -13,7 +13,7 @@ class PostUpdateCommand extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'post-update {--p|packages=} {--m|message=}';
+    protected $signature = 'pull {--p|packages=}';
 
     /**
      * The console command description.
@@ -29,7 +29,7 @@ class PostUpdateCommand extends BaseCommand
      */
     public function handle()
     {
-        $this->git()->postUpdate($this->options());
+        $this->git()->action('pull', $this->options());
     }
 
 }

@@ -22,7 +22,7 @@ class GitService extends BaseService
 
     }
 
-    public function commit($path, $options)
+    public function push($path, $options)
     {
         $message = array_get($options, 'message');
 
@@ -38,7 +38,7 @@ class GitService extends BaseService
         ]);
     }
 
-    public function fetch($path)
+    public function pull($path)
     {
         $this->cmd([
             $this->cd($path),
@@ -54,7 +54,7 @@ class GitService extends BaseService
         ]);
     }
 
-    public function update($options = [])
+    public function compose($options = [])
     {
         $message = array_get($options, 'message', 'composer update');
 
@@ -67,10 +67,10 @@ class GitService extends BaseService
             'git push origin master',
         ]);
 
-        $this->postUpdate();
+        $this->postCompose();
     }
 
-    public function postUpdate()
+    public function postCompose()
     {
         $project = env('PROJECT');
 

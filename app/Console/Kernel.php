@@ -14,13 +14,13 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        App\Console\Commands\CommitCommand::class,
-        App\Console\Commands\FetchCommand::class,
-        App\Console\Commands\PostUpdateCommand::class,
+        App\Console\Commands\ComposeCommand::class,
+        App\Console\Commands\PostComposeCommand::class,
+        App\Console\Commands\PullCommand::class,
+        App\Console\Commands\PushCommand::class,
         App\Console\Commands\ReinstallCommand::class,
         App\Console\Commands\StatusCommand::class,
         App\Console\Commands\TestCommand::class,
-        App\Console\Commands\UpdateCommand::class,
     ];
 
     /**
