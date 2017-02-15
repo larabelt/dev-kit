@@ -88,9 +88,7 @@ class GitService extends BaseService
                 $this->cd("$project/resources/ohio"),
                 $this->symlink("../../../$package/resources", $package),
                 $this->cd($package),
-                $this->rm("$package/.babelrc"),
                 $this->rm("$package/node_modules"),
-                $this->symlink("../$project/.babelrc", '.babelrc'),
                 $this->symlink("../$project/node_modules", 'node_modules'),
             ]);
         }
