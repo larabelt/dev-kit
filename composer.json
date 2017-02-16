@@ -1,7 +1,7 @@
 {
-    "name": "ohiocms/dev-kit",
-    "description": "dev kit for ohiocms projects",
-    "keywords": ["framework", "ohiocms"],
+    "name": "larabelt/dev-kit",
+    "description": "dev kit for larabelt projects",
+    "keywords": ["framework", "larabelt"],
     "license": "MIT",
     "type": "project",
     "require": {

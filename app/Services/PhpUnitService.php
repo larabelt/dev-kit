@@ -42,7 +42,7 @@ class PhpUnitService extends BaseService
         }
 
         if ($coverage) {
-            $testCmd[] = "--coverage-html=public/tests/ohio/$path";
+            $testCmd[] = "--coverage-html=public/tests/belt/$path";
         }
 
         $testCmd = implode(' ', $testCmd);

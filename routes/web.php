@@ -20,8 +20,8 @@ Route::get('/git/fetch', function () {
     }
 });
 
-Route::get('/git/status', 'GitController@status');
-Route::get('/phpunit/test', 'PhpUnitController@test');
+Route::get('/status', 'GitController@status');
+Route::get('/test', 'PhpUnitController@test');
 
 Route::get('/', function () {
     return view('welcome');

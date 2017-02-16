@@ -36,13 +36,13 @@ class BaseService
 
         $packages = [];
         foreach (array_get($composer, 'require') as $package => $version) {
-            if (str_contains($package, 'ohiocms/')) {
-                $packages[] = str_replace('ohiocms/', '', $package);
+            if (str_contains($package, 'larabelt/')) {
+                $packages[] = str_replace('larabelt/', '', $package);
             }
         }
         foreach (array_get($composer, 'require-dev') as $package => $version) {
-            if (str_contains($package, 'ohiocms/')) {
-                $packages[] = str_replace('ohiocms/', '', $package);
+            if (str_contains($package, 'larabelt/')) {
+                $packages[] = str_replace('larabelt/', '', $package);
             }
         }
 

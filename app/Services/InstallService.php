@@ -15,7 +15,7 @@ class InstallService extends BaseService
 
         # publish
         foreach ($this->packages() as $package) {
-            $cmd = sprintf('php artisan ohio-%s:publish %s', $package, $force ? '--force' : '');
+            $cmd = sprintf('php artisan belt-%s:publish %s', $package, $force ? '--force' : '');
             $this->cmd([
                 $this->cd($project),
                 $this->info($cmd, 'blue'),
@@ -41,10 +41,10 @@ class InstallService extends BaseService
 
         # seeds
         foreach ($this->packages() as $package) {
-            $class = sprintf('Ohio%sSeeder', Str::title($package));
+            $class = sprintf('Belt%sSeeder', Str::title($package));
             $file = sprintf('%s/../%s/database/seeds/%s.php', base_path(), $project, $class);
             if (file_exists($file)) {
-                $cmd = sprintf('php artisan db:seed --class=Ohio%sSeeder', Str::title($package));
+                $cmd = sprintf('php artisan db:seed --class=Belt%sSeeder', Str::title($package));
                 $this->cmd([
                     $this->cd($project),
                     $cmd

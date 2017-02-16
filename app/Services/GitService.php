@@ -59,7 +59,7 @@ class GitService extends BaseService
         $message = array_get($options, 'message', 'composer update');
 
         $this->cmd([
-            $this->rm(env('PROJECT') . '/vendor/ohiocms'),
+            $this->rm(env('PROJECT') . '/vendor/larabelt'),
             $this->cd(env('PROJECT')),
             'composer update',
             'git add --all',
@@ -75,17 +75,17 @@ class GitService extends BaseService
         $project = env('PROJECT');
 
         $this->cmd([
-            $this->rm("$project/vendor/ohiocms"),
-            $this->rm("$project/resources/ohio"),
-            $this->mkdir("$project/vendor/ohiocms"),
-            $this->mkdir("$project/resources/ohio"),
+            $this->rm("$project/vendor/larabelt"),
+            $this->rm("$project/resources/belt"),
+            $this->mkdir("$project/vendor/larabelt"),
+            $this->mkdir("$project/resources/belt"),
         ]);
 
         foreach ($this->packages() as $package) {
             $this->cmd([
-                $this->cd("$project/vendor/ohiocms"),
+                $this->cd("$project/vendor/larabelt"),
                 $this->symlink("../../../$package", $package),
-                $this->cd("$project/resources/ohio"),
+                $this->cd("$project/resources/belt"),
                 $this->symlink("../../../$package/resources", $package),
                 $this->cd($package),
                 $this->rm("$package/node_modules"),
