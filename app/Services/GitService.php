@@ -56,7 +56,7 @@ class GitService extends BaseService
 
     public function compose($options = [])
     {
-        $message = array_get($options, 'message', 'composer update');
+        $message = array_get($options, 'message') ?: 'composer update';
 
         $this->cmd([
             $this->rm(env('PROJECT') . '/vendor/larabelt'),
