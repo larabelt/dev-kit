@@ -54,9 +54,7 @@
       "ln -s ../../../{package}/resources {package}",
       "cd {root}/{package}",
       "rm -rf node_modules",
-      "ln -s ../{project}/node_modules node_modules",
-      "rm -rf vendor",
-      "ln -s ../{project}/vendor vendor"
+      "ln -s ../{project}/node_modules node_modules"
     ]
   }
 }
