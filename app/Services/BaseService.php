@@ -7,6 +7,10 @@ use Illuminate\Console\Command;
 class BaseService
 {
 
+    public $config;
+
+    public $paths;
+
     public $packages;
 
     /**
@@ -17,36 +21,79 @@ class BaseService
     public function __construct($options = [])
     {
         $this->console = array_get($options, 'console');
+        $this->config = $this->setConfig();
+    }
+
+    public function setConfig()
+    {
+        $path = base_path('cc.json');
+        if (!file_exists($path)) {
+            $path = base_path('cc.example.json');
+        }
+
+        $config = json_decode(file_get_contents($path), true);
+
+        return $this->config = $config;
+    }
+
+    public function config($key = null, $default = false)
+    {
+        if ($key) {
+            return array_get($this->config, $key, $default);
+        }
+
+        return $this->config;
+    }
+
+    public function paths()
+    {
+        // return active paths
+        if (!is_null($this->paths)) {
+            return $this->paths;
+        }
+
+        $config = $this->config();
+
+        $paths = [];
+        foreach ($this->packages as $package) {
+            $paths[] = array_get($config, "packages.$package.path");
+        }
+
+        return $this->paths = $paths;
     }
 
     public function packages($packages = null)
     {
-
+        // manually set active packages
         if ($packages) {
             return $this->packages = is_array($packages) ? $packages : explode(',', $packages);
         }
 
+        // return active packages if set
         if (!is_null($this->packages)) {
             return $this->packages;
         }
 
-        // get composer.json contents
-        $path = sprintf('%s/../%s/composer.json', base_path(), env('PROJECT'));
-        $composer = json_decode(file_get_contents($path), true);
-
+        // automatically set active packages
         $packages = [];
-        foreach (array_get($composer, 'require') as $package => $version) {
-            if (str_contains($package, 'larabelt/')) {
-                $packages[] = str_replace('larabelt/', '', $package);
-            }
-        }
-        foreach (array_get($composer, 'require-dev') as $package => $version) {
-            if (str_contains($package, 'larabelt/')) {
-                $packages[] = str_replace('larabelt/', '', $package);
-            }
+        foreach (array_get($this->config(), 'packages', []) as $key => $package) {
+            $packages[] = $key;
         }
 
         return $this->packages = $packages;
+    }
+
+    public function script($lines, $options = [])
+    {
+        $script = [];
+        foreach ($lines as $line) {
+            $line = str_replace('{root}', $this->path(), $line);
+            $line = str_replace('{project}', env('PROJECT'), $line);
+            $line = str_replace('{package}', array_get($options, 'package'), $line);
+            $script[] = $line;
+        }
+
+        return $script;
     }
 
     public function cmd($cmds)
@@ -110,6 +157,10 @@ class BaseService
 
     public function path($path = '')
     {
+        if (!$path) {
+            return sprintf("%s/..", base_path());
+        }
+
         return sprintf("%s/../%s", base_path(), $path);
     }
 
