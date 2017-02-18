@@ -85,21 +85,21 @@ class GitService extends BaseService
         ]);
 
         foreach ($this->packages() as $package) {
-            $scripts = $this->config("packages.$package.scripts.post-compose");
-
-            if ($scripts) {
-                foreach ($scripts as $script) {
-                    if (is_string($script)) {
-                        $script = $this->config("scripts.$script");
-                    }
-                    $cmd = $this->script($script, ['package' => $package]);
-                    $this->cmd($cmd);
-                }
-            }
+            $this->runScripts($package, 'post-compose');
         }
 
-        // larabelt specific
-        // other
+//        foreach ($this->packages() as $package) {
+//            $scripts = $this->config("packages.$package.scripts.post-compose");
+//            if ($scripts) {
+//                foreach ($scripts as $script) {
+//                    if (is_string($script)) {
+//                        $script = $this->config("scripts.$script");
+//                    }
+//                    $cmd = $this->script($script, ['package' => $package]);
+//                    $this->cmd($cmd);
+//                }
+//            }
+//        }
     }
 
 }

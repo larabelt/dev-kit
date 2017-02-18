@@ -2,25 +2,73 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Str;
-
 class InstallService extends BaseService
 {
-    public function reinstall($options = [])
+    public function install($options = [])
+    {
+
+        //git clones...
+        //copy .env
+        //key generate
+
+        $this->packages(array_get($options, 'packages'));
+
+        $project = env('PROJECT');
+
+        # composer install
+        $cmd = 'composer install';
+        $this->cmd([
+            $this->cd($project),
+            $this->info("$cmd\n", 'blue'),
+            $cmd
+        ]);
+
+        # pre-install (including publish)
+        foreach ($this->packages() as $package) {
+            $this->runScripts($package, 'pre-install');
+        }
+
+        # composer dumpautoload
+        $cmd = 'composer dumpautoload';
+        $this->cmd([
+            $this->cd($project),
+            $this->info("$cmd\n", 'blue'),
+            $cmd
+        ]);
+
+        # migrate: refresh
+        $cmd = 'php artisan migrate';
+        $this->cmd([
+            $this->cd($project),
+            $this->info("$cmd\n", 'blue'),
+            $cmd
+        ]);
+
+        # post-install (including seeds)
+        foreach ($this->packages() as $package) {
+            $this->runScripts($package, 'post-install');
+        }
+
+        # clear
+        $cmd = 'composer run-script clear';
+        $this->cmd([
+            $this->cd($project),
+            $this->info("$cmd\n", 'blue'),
+            $cmd
+        ]);
+
+    }
+
+    public function refresh($options = [])
     {
 
         $project = env('PROJECT');
 
         $force = array_get($options, 'force', false);
 
-        # publish
+        # pre-install (including publish)
         foreach ($this->packages() as $package) {
-            $cmd = sprintf('php artisan belt-%s:publish %s', $package, $force ? '--force' : '');
-            $this->cmd([
-                $this->cd($project),
-                $this->info($cmd, 'blue'),
-                $cmd
-            ]);
+            $this->runScripts($package, 'pre-install');
         }
 
         # composer dumpautoload
@@ -39,17 +87,9 @@ class InstallService extends BaseService
             $cmd
         ]);
 
-        # seeds
+        # post-install (including seeds)
         foreach ($this->packages() as $package) {
-            $class = sprintf('Belt%sSeeder', Str::title($package));
-            $file = sprintf('%s/../%s/database/seeds/%s.php', base_path(), $project, $class);
-            if (file_exists($file)) {
-                $cmd = sprintf('php artisan db:seed --class=Belt%sSeeder', Str::title($package));
-                $this->cmd([
-                    $this->cd($project),
-                    $cmd
-                ]);
-            }
+            $this->runScripts($package, 'pre-post');
         }
 
         # clear

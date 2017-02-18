@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class BaseService
 {
@@ -85,15 +86,49 @@ class BaseService
 
     public function script($lines, $options = [])
     {
+
+        $project = env('PROJECT');
+        $package = array_get($options, 'package');
+
+        $script = [];
+        foreach ($lines as $line) {
+            $line = str_replace('{root}', $this->path(), $line);
+            $line = str_replace('{project}', $project, $line);
+            $line = str_replace('{package}', $package, $line);
+            $line = str_replace('{seeder}', sprintf('php artisan db:seed --class=Belt%sSeeder', Str::title($package)), $line);
+            $script[] = $line;
+        }
+
+        return $script;
+    }
+
+    public function scriptReplace($lines, $options = [])
+    {
         $script = [];
         foreach ($lines as $line) {
             $line = str_replace('{root}', $this->path(), $line);
             $line = str_replace('{project}', env('PROJECT'), $line);
             $line = str_replace('{package}', array_get($options, 'package'), $line);
+            $line = str_replace('{seeder}', array_get($options, 'package'), $line);
             $script[] = $line;
         }
 
         return $script;
+    }
+
+    public function runScripts($package, $type, $options = [])
+    {
+        $scripts = $this->config("packages.$package.scripts.$type");
+        if ($scripts) {
+            foreach ($scripts as $script) {
+                if (is_string($script)) {
+                    $script = $this->config("scripts.$script");
+                }
+                $_options = array_merge($options, ['package' => $package]);
+                $cmd = $this->scriptReplace($script, $_options);
+                $this->cmd($cmd);
+            }
+        }
     }
 
     public function cmd($cmds)

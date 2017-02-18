@@ -7,42 +7,53 @@
       "path": "core",
       "repo": "git@github.com:larabelt/core.git",
       "scripts": {
-        "post-compose": ["larabelt-post-compose"]
+        "post-compose": ["larabelt-post-compose"],
+        "pre-install": ["larabelt-pre-install"],
+        "post-install": ["larabelt-post-install"]
       }
     },
     "clip": {
       "path": "clip",
       "repo": "git@github.com:larabelt/clip.git",
       "scripts": {
-        "post-compose": ["larabelt-post-compose"]
+        "post-compose": ["larabelt-post-compose"],
+        "pre-install": ["larabelt-pre-install"],
+        "post-install": ["larabelt-post-install"]
       }
     },
     "content": {
       "path": "content",
       "repo": "git@github.com:larabelt/content.git",
       "scripts": {
-        "post-compose": ["larabelt-post-compose"]
+        "post-compose": ["larabelt-post-compose"],
+        "pre-install": ["larabelt-pre-install"],
+        "post-install": ["larabelt-post-install"]
       }
     },
     "glue": {
       "path": "glue",
       "repo": "git@github.com:larabelt/glue.git",
       "scripts": {
-        "post-compose": ["larabelt-post-compose"]
+        "post-compose": ["larabelt-post-compose"],
+        "pre-install": ["larabelt-pre-install"],
+        "post-install": ["larabelt-post-install"]
       }
     },
     "menu": {
       "path": "menu",
       "repo": "git@github.com:larabelt/menu.git",
       "scripts": {
-        "post-compose": ["larabelt-post-compose"]
+        "post-compose": ["larabelt-post-compose"],
+        "pre-install": ["larabelt-pre-install"]
       }
     },
     "spot": {
       "path": "spot",
       "repo": "git@github.com:larabelt/spot.git",
       "scripts": {
-        "post-compose": ["larabelt-post-compose"]
+        "post-compose": ["larabelt-post-compose"],
+        "pre-install": ["larabelt-pre-install"],
+        "post-install": ["larabelt-post-install"]
       }
     }
   },
@@ -55,6 +66,14 @@
       "cd {root}/{package}",
       "rm -rf node_modules",
       "ln -s ../{project}/node_modules node_modules"
+    ],
+    "larabelt-pre-install": [
+      "cd {root}/{project}",
+      "php artisan belt-{package}:publish"
+    ],
+    "larabelt-post-install": [
+      "cd {root}/{project}",
+      "php artisan db:seed --class={seeder}"
     ]
   }
 }
