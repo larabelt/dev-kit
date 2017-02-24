@@ -79,9 +79,9 @@ class GitService extends BaseService
         // project specific
         $this->cmd([
             $this->rm("$project/vendor/larabelt"),
-            $this->rm("$project/resources/belt"),
+            //$this->rm("$project/resources/belt"),
             $this->mkdir("$project/vendor/larabelt"),
-            $this->mkdir("$project/resources/belt"),
+            //$this->mkdir("$project/resources/belt"),
         ]);
 
         foreach ($this->packages() as $package) {
