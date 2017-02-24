@@ -62,6 +62,7 @@
       "cd {root}/{project}/vendor/larabelt",
       "ln -s ../../../{package} {package}",
       "cd {root}/{project}/resources/belt",
+      "rm -rf {package}",
       "ln -s ../../../{package}/resources {package}",
       "cd {root}/{package}",
       "rm -rf node_modules",
