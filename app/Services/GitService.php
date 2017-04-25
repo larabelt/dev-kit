@@ -56,6 +56,7 @@ class GitService extends BaseService
             $this->cd($path),
             'git fetch origin',
             sprintf('git checkout %s', $this->branch),
+            sprintf('git pull origin %s', $this->branch),
         ]);
     }
 
