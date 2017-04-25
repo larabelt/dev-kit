@@ -1,0 +1,94 @@
+{
+    "project": {
+        "path": "all",
+        "branch": "master"
+    },
+    "packages": {
+        "craa-shared": {
+            "path": "craa-shared",
+            "repo": "git@github.com:fahlgrenmortinedigital\/craa-shared.git",
+            "scripts": {
+                "post-compose": [
+                    [
+                        "cd {root}\/{project}\/vendor\/fahlgrenmortinedigital",
+                        "rm -rf craa-shared",
+                        "ln -s ..\/..\/..\/craa-shared craa-shared",
+                        "cd {root}\/{package}",
+                        "rm -rf node_modules",
+                        "ln -s ..\/{project}\/node_modules node_modules"
+                    ]
+                ]
+            },
+            "branch": "master"
+        },
+        "core": {
+            "path": "core",
+            "repo": "git@github.com:larabelt\/core.git",
+            "scripts": {
+                "post-compose": [
+                    "larabelt-post-compose"
+                ]
+            },
+            "branch": "master"
+        },
+        "clip": {
+            "path": "clip",
+            "repo": "git@github.com:larabelt\/clip.git",
+            "scripts": {
+                "post-compose": [
+                    "larabelt-post-compose"
+                ]
+            },
+            "branch": "master"
+        },
+        "content": {
+            "path": "content",
+            "repo": "git@github.com:larabelt\/content.git",
+            "scripts": {
+                "post-compose": [
+                    "larabelt-post-compose"
+                ]
+            },
+            "branch": "master"
+        },
+        "glue": {
+            "path": "glue",
+            "repo": "git@github.com:larabelt\/glue.git",
+            "scripts": {
+                "post-compose": [
+                    "larabelt-post-compose"
+                ]
+            },
+            "branch": "master"
+        },
+        "menu": {
+            "path": "menu",
+            "repo": "git@github.com:larabelt\/menu.git",
+            "scripts": {
+                "post-compose": [
+                    "larabelt-post-compose"
+                ]
+            },
+            "branch": "master"
+        },
+        "spot": {
+            "path": "spot",
+            "repo": "git@github.com:larabelt\/spot.git",
+            "scripts": {
+                "post-compose": [
+                    "larabelt-post-compose"
+                ]
+            },
+            "branch": "master"
+        }
+    },
+    "scripts": {
+        "larabelt-post-compose": [
+            "cd {root}\/{project}\/vendor\/larabelt",
+            "ln -s ..\/..\/..\/{package} {package}",
+            "cd {root}\/{package}",
+            "rm -rf node_modules",
+            "ln -s ..\/{project}\/node_modules node_modules"
+        ]
+    }
+}

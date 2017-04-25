@@ -14,6 +14,10 @@ class BaseService
 
     public $packages;
 
+    public $branch = 'master';
+
+    public $writeConfig = false;
+
     /**
      * @var Command
      */
@@ -35,6 +39,15 @@ class BaseService
         $config = json_decode(file_get_contents($path), true);
 
         return $this->config = $config;
+    }
+
+    public function writeConfig()
+    {
+        $path = base_path('cc.json');
+
+        $content = json_encode($this->config, JSON_PRETTY_PRINT);
+
+        file_put_contents($path, $content);
     }
 
     public function config($key = null, $default = false)
@@ -61,6 +74,13 @@ class BaseService
         }
 
         return $this->paths = $paths;
+    }
+
+    public function branch($branch = null, $config_path)
+    {
+        $this->branch = $branch ?: $this->config($config_path, 'master');
+
+        array_set($this->config, $config_path, $branch);
     }
 
     public function packages($packages = null)

@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         App\Console\Commands\ComposeCommand::class,
+        App\Console\Commands\BranchCommand::class,
         App\Console\Commands\InstallCommand::class,
         App\Console\Commands\PostComposeCommand::class,
         App\Console\Commands\PullCommand::class,
