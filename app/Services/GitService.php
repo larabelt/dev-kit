@@ -74,6 +74,7 @@ class GitService extends BaseService
             'git add --all',
             sprintf('git commit -am "%s"', $message),
             sprintf('git push origin %s', $this->branch),
+            'git push origin --tags',
         ]);
     }
 
