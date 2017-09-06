@@ -78,6 +78,21 @@ class GitService extends BaseService
         ]);
     }
 
+    public function tag($path, $options)
+    {
+        //$message = array_get($options, 'message', '');
+        $version = array_get($options, 'tag');
+
+        if (!$version) {
+            throw new \Exception('missing tag version');
+        }
+
+        $this->cmd([
+            $this->cd($path),
+            sprintf('git tag %s', $version),
+        ]);
+    }
+
     public function status($path)
     {
         $this->cmd([

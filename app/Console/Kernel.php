@@ -22,6 +22,7 @@ class Kernel extends ConsoleKernel
         App\Console\Commands\PushCommand::class,
         App\Console\Commands\RefreshCommand::class,
         App\Console\Commands\StatusCommand::class,
+        App\Console\Commands\TagCommand::class,
         App\Console\Commands\TestCommand::class,
     ];
 
