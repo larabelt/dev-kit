@@ -19,7 +19,7 @@ class GitService extends BaseService
         }
 
         foreach ($this->packages() as $package) {
-            $this->branch(array_get($options, 'branch'),"packages.$package.branch");
+            $this->branch(array_get($options, 'branch'), "packages.$package.branch");
             $path = $this->config("packages.$package.path");
             $this->cmd($this->info("\n$package\n", 'blue'));
             $this->$action($path, $options);
@@ -52,12 +52,21 @@ class GitService extends BaseService
 
     public function pull($path)
     {
-        $this->cmd([
+
+        $version = $this->config('version');
+
+        $cmds = [
             $this->cd($path),
             'git fetch origin',
             sprintf('git checkout %s', $this->branch),
             sprintf('git pull origin %s', $this->branch),
-        ]);
+        ];
+
+        if ($version) {
+            //$cmds[] = sprintf('git checkout %s', $version);
+        }
+
+        $this->cmd($cmds);
     }
 
     public function push($path, $options)
@@ -74,23 +83,38 @@ class GitService extends BaseService
             'git add --all',
             sprintf('git commit -am "%s"', $message),
             sprintf('git push origin %s', $this->branch),
-            'git push origin --tags',
         ]);
     }
 
     public function tag($path, $options)
     {
-        //$message = array_get($options, 'message', '');
+        $delete = array_get($options, 'delete');
         $version = array_get($options, 'tag');
 
         if (!$version) {
             throw new \Exception('missing tag version');
         }
 
-        $this->cmd([
-            $this->cd($path),
-            sprintf('git tag %s', $version),
-        ]);
+        if ($delete) {
+            $this->cmd([
+                $this->cd($path),
+                sprintf('git tag -d %s', $version),
+            ]);
+            $this->cmd([
+                $this->cd($path),
+                sprintf('git push origin :refs/tags/%s', $version),
+            ]);
+        } else {
+            $this->cmd([
+                $this->cd($path),
+                sprintf('git tag %s', $version),
+            ]);
+            $this->cmd([
+                $this->cd($path),
+                sprintf('git push origin --tags', $version),
+            ]);
+        }
+
     }
 
     public function status($path)

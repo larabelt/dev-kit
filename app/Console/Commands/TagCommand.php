@@ -13,7 +13,7 @@ class TagCommand extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'tag {--p|packages=} {--t|tag=} {--m|message=}';
+    protected $signature = 'tag {--p|packages=} {--t|tag=} {--m|message=} {--d|delete}';
 
     /**
      * The console command description.
