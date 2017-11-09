@@ -6,6 +6,7 @@
     "core": {
       "path": "core",
       "repo": "git@github.com:larabelt/core.git",
+      "branch": "master",
       "scripts": {
         "post-compose": ["larabelt-post-compose"],
         "pre-install": ["larabelt-pre-install"],
@@ -15,6 +16,7 @@
     "clip": {
       "path": "clip",
       "repo": "git@github.com:larabelt/clip.git",
+      "branch": "master",
       "scripts": {
         "post-compose": ["larabelt-post-compose"],
         "pre-install": ["larabelt-pre-install"],
@@ -24,6 +26,7 @@
     "content": {
       "path": "content",
       "repo": "git@github.com:larabelt/content.git",
+      "branch": "master",
       "scripts": {
         "post-compose": ["larabelt-post-compose"],
         "pre-install": ["larabelt-pre-install"],
@@ -33,6 +36,7 @@
     "glue": {
       "path": "glue",
       "repo": "git@github.com:larabelt/glue.git",
+      "branch": "master",
       "scripts": {
         "post-compose": ["larabelt-post-compose"],
         "pre-install": ["larabelt-pre-install"],
@@ -42,6 +46,7 @@
     "menu": {
       "path": "menu",
       "repo": "git@github.com:larabelt/menu.git",
+      "branch": "master",
       "scripts": {
         "post-compose": ["larabelt-post-compose"],
         "pre-install": ["larabelt-pre-install"]
@@ -50,6 +55,7 @@
     "spot": {
       "path": "spot",
       "repo": "git@github.com:larabelt/spot.git",
+      "branch": "master",
       "scripts": {
         "post-compose": ["larabelt-post-compose"],
         "pre-install": ["larabelt-pre-install"],

@@ -41,12 +41,22 @@ class GitService extends BaseService
         ]);
     }
 
+    public function createBranch($path, $options)
+    {
+        $this->cmd([
+            $this->cd($path),
+            'git checkout master',
+            sprintf('git checkout -b %s', $options['branch']),
+        ]);
+    }
+
     public function deleteBranch($path, $options)
     {
         $this->cmd([
             $this->cd($path),
             'git checkout master',
             sprintf('git branch -D %s', $options['branch']),
+            sprintf('git push origin :%s', $options['branch']),
         ]);
     }
 
@@ -149,27 +159,13 @@ class GitService extends BaseService
         // project specific
         $this->cmd([
             $this->rm("$project/vendor/larabelt"),
-            //$this->rm("$project/resources/belt"),
             $this->mkdir("$project/vendor/larabelt"),
-            //$this->mkdir("$project/resources/belt"),
         ]);
 
         foreach ($this->packages() as $package) {
             $this->runScripts($package, 'post-compose');
         }
 
-//        foreach ($this->packages() as $package) {
-//            $scripts = $this->config("packages.$package.scripts.post-compose");
-//            if ($scripts) {
-//                foreach ($scripts as $script) {
-//                    if (is_string($script)) {
-//                        $script = $this->config("scripts.$script");
-//                    }
-//                    $cmd = $this->script($script, ['package' => $package]);
-//                    $this->cmd($cmd);
-//                }
-//            }
-//        }
     }
 
 }
