@@ -138,6 +138,10 @@ class GitService extends BaseService
 
     public function compose($options = [])
     {
+        foreach ($this->packages() as $package) {
+            $this->runScripts($package, 'compose');
+        }
+
         $message = array_get($options, 'message') ?: 'composer update';
 
         $this->cmd([
