@@ -13,7 +13,7 @@ class PushCommand extends BaseCommand
      *
      * @var string
      */
-    protected $signature = 'push {--p|packages=} {--m|message=} {--b|branch=} ';
+    protected $signature = 'push {--p|packages=} {--m|message=} {--b|branch=}';
 
     /**
      * The console command description.
