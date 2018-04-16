@@ -150,7 +150,7 @@ class GitService extends BaseService
             'composer update',
             'git add --all',
             "git commit -am '$message'",
-            'git push origin master',
+            sprintf('git push origin %s', $this->branch),
         ]);
 
         $this->postCompose();
