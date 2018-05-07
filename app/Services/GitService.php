@@ -112,7 +112,8 @@ class GitService extends BaseService
             ]);
             $this->cmd([
                 $this->cd($path),
-                sprintf('git push origin :refs/tags/%s', $version),
+                //sprintf('git push origin :refs/tags/%s', $version),
+                sprintf('git push --delete origin %s', $version),
             ]);
         } else {
             $this->cmd([
